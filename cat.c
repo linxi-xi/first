@@ -3,7 +3,7 @@
 3. 默认情况下：输出文件，不编号*/
 
 #include<stdio.h>
-#include<unistd.h>//引入getopt头文件
+#include<unistd.h>
 #include<stdlib.h>
 int bflag, nflag, num;//标记是b还是b  和 行号
 void cat_file(const char *);
@@ -22,20 +22,20 @@ int main(int argc, char *argv[]) {
                 exit(1);
         }
     }
-    for(int i = optind; i < argc; i++) {//可能有多个文件打印，optind再次调用下一个argv的索引
+    for(int i = optind; i < argc; i++) {
         cat_file(argv[i]);
     }
     return 0;
 }
 void cat_file(const char *file) {
     FILE *fp;
-    if((fp = fopen(file, "r")) == NULL) {//判断是不是空文件
+    if((fp = fopen(file, "r")) == NULL) {
         //打印错误信息
         perror(file);
         exit(1);
     }
     char buff[1024] = {0};
-    while(fgets(buff, sizeof(buff), fp)) {//按行读取
+    while(fgets(buff, sizeof(buff), fp)) {
         //都不成立 直接打印
         if(!nflag && !bflag) {
             printf("%s", buff);
@@ -54,6 +54,6 @@ void cat_file(const char *file) {
             }
         }
     }
-    fclose(fp);//关闭文件
+    fclose(fp);
     return ;
 }
