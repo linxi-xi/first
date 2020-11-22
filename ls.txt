@@ -1,0 +1,39 @@
+#include<stdio.h>
+#include<sys/types.h>
+#include<dirent.h>
+void do_ls(char[]);
+int main(int argc, char **argv)
+{
+    if (argc == 1)
+    {
+        do_ls(".");
+    }
+    else
+    {
+        while(--argc)
+        {
+            printf("%s:\n",*++argv);
+            do_ls(*argv);
+        }
+    }
+    return 0;
+}
+void do_ls(char dirname[])
+{
+    DIR* dir_ptr;     //首先定义一个 DIR 类型的指针变量 DIR *dir_ptr 
+    struct dirent *direntp; //读文件
+    if ((dir_ptr = opendir(dirname)) == NULL)   //打开文件目录   dirname:文件路径名字
+    {
+        printf( "ls1: cannot open %s\n",dirname);
+    }
+    else  //路径存在
+    {
+        while((direntp = readdir(dir_ptr)) != NULL)    //readdir()返回参数dir 目录流的下个目录进入点。
+        {
+           // printf("direntp->d_name = %s\n",direntp->d_name);
+            if(    strcmp(direntp->d_name, ".") != 0 &&strcmp(direntp->d_name, "..") != 0)
+                   printf("%s\n", direntp->d_name);
+        }
+        close(dir_ptr);   //关闭文件
+    }
+}
